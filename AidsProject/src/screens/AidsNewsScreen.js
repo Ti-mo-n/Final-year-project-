@@ -1,43 +1,31 @@
-import { ScrollView, View, Text } from 'react-native'
-import React, {useState} from 'react'
-import {heightPercentageToDP as hp} from "react-native-responsive-screen";
-import NewsSection from '../components/NewsSection';
-import { fetchBreakingNews } from '../../utils/NewsApi';
-import { useQuery } from "@tanstack/react-query";
-import { SafeAreaView } from 'react-native-safe-area-context';
-import Loading from "../components/Loading";
-
+// AidsNewsScreen.js
+import React, { useEffect, useState } from 'react';
+import { View, FlatList } from 'react-native';
+import Card from '../components/Card';
 
 export default function AidsNewsScreen() {
-    const [breakingNews, setBreakingNews] = useState([]);
+    const [data, setData] = useState([]);
 
-    const { isLoading: isBreakingNewsLoading, error } = useQuery({
-        queryKey: ["breakingNews"],
-        queryFn: fetchBreakingNews,
-        onSuccess: (data) => {
-          setBreakingNews(data.articles);
-        },
-        onError: (error) => {
-          console.log("Error fetching news:", error);
-          // Handle error here, e.g., display an error message
-        },
-      });
-  return (
-    <SafeAreaView>
+    useEffect(() => {
+        const getData = async () => {
+            try {
+                const response = await fetch('https://newsapi.org/v2/everything?q=hiv&apiKey=0a4ff84e17044c0b8525a5e03c82dd7e');
+                const jsonData = await response.json();
+                setData(jsonData.articles);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+        getData();
+    }, []);
+
+    return (
         <View>
-        <ScrollView
-      contentContainerStyle ={{
-        paddlingBottom:hp(80),
-      }}
-      >
-      {isBreakingNewsLoading ? (
-        <Loading />
-      ) : (
-        <NewsSection label="BreakingNews" newsProps={breakingNews}/>
-      )}
-      </ScrollView>
+            <FlatList
+                data={data}
+                renderItem={({ item, index }) => <Card item={item} />}
+                keyExtractor={(item, index) => index.toString()}
+            />
         </View>
-    </SafeAreaView>
-
-  )
+    );
 }

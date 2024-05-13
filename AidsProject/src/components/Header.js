@@ -9,13 +9,14 @@ export default function Header() {
     const {colorScheme, toggleColorScheme} = useColorScheme();
 
     return (
-        <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginHorizontal: 4, marginTop: 4 }}>
+        <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginHorizontal: 4, marginTop: 0, backgroundColor: "white"}}>
             <Text 
                 style={{
                     fontSize: 20,
                     color: colorScheme == "dark" ? "white" : "red",
                     textTransform: "uppercase",
                     fontFamily: "SpaceGroteskBold",
+                    fontWeight: "bold",
                 }}
             >
                 HIV Connect
@@ -24,7 +25,7 @@ export default function Header() {
                 <Switch value={colorScheme == "dark"} onValueChange={toggleColorScheme} />
                 <TouchableOpacity
                     onPress={() => navigation.navigate("Search")}
-                    style={{ backgroundColor: colorScheme == "dark" ? "red" : "gray", borderRadius: 20, padding: 5, marginLeft: 10 }}
+                    style={{ backgroundColor: colorScheme == "dark" ? "red" : "white", borderRadius: 20, padding: 5, marginLeft: 10 }}
                 >
                     <MagnifyingGlassIcon
                         size={25}

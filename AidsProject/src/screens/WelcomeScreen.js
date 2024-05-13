@@ -1,11 +1,22 @@
 import { View, Text, ImageBackground, Touchable, TouchableOpacity } from 'react-native';
 import React from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
+import {useFonts} from "expo-font"; 
 import {widthPercentageToDP as wp} from "react-native-responsive-screen";
 import { useNavigation } from '@react-navigation/native';
 
 export default function WelcomeScreen() {
+  
   const navigation= useNavigation();
+  let [fontsLoaded] = useFonts({
+    SpaceGroteskMedium: require('../fonts/SpaceGrotesk-Medium.ttf'),
+  });
+
+  // Check if fonts are loaded
+  if (!fontsLoaded) {
+    return null; // Render nothing until fonts are loaded
+  }
+
   return (
    <ImageBackground
    source={require("../../assets/images/R.jpeg")}
@@ -22,12 +33,21 @@ export default function WelcomeScreen() {
       start={{x: 1, y: 0}}
       end={{x: 1, y: 1}}
       />
-      <TouchableOpacity className="bg-red-800 rounded-full p-4 justify-center item-center w-[90%] mt-8"
+      <TouchableOpacity style={{
+    backgroundColor: '#800000', 
+    borderRadius: 50, 
+    padding: 16, 
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    width: '90%', 
+    marginTop: 400, 
+    marginBottom: 0, 
+  }}
       onPress={() => navigation.navigate("HomeTabs")} 
       >
       <Text className="text-base text-white"
       style={{
-        fontSize: wp(4),
+        fontSize: wp(5),
         fontFamily: "SpaceGroteskMedium",
       }}>Getting Started</Text>
       </TouchableOpacity>
