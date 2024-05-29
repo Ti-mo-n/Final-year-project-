@@ -1,36 +1,72 @@
-import { StyleSheet, View, Text, Image, TouchableOpacity} from 'react-native'
-import React from 'react'
+import { StyleSheet, View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
+import React from 'react';
 
-const Card = ({item}) => {
-  console.log(item);
+const Card = ({ item }) => {
   return (
-    <View className= "flex-1 px-4 py-4 mb-4 relative">
-      <Image source={{uri: item.urlToImage ? item.urlToImage
-      :"https://www.out.com/media-library/aids-red-ribbon.jpg?id=52092720&width=1200&height=600&coordinates=0%2C39%2C0%2C39"}} 
-      className="h-36 w-full rounded-md"
-      resizeMethod='resize' 
+    <View style={styles.cardContainer}>
+      <Image
+        source={{
+          uri: item.urlToImage ? item.urlToImage : "https://www.out.com/media-library/aids-red-ribbon.jpg?id=52092720&width=1200&height=600&coordinates=0%2C39%2C0%2C39",
+        }}
+        style={styles.image}
+        resizeMethod='resize'
       />
-      <View className=" px-2 my-2">
-        <Text className="text-sm  text-gray-700">{item.title}</Text>
-        <Text className="text-xs my-2">{item.description}</Text>
-        <View className="flex-row justify-between items-center my-2">
-        <Text className="text-xs my-1 text-gray-700">{item.author}</Text>
-        <Text className="text-xs text-gray-700">
-          {item.publishedAt.toLocaleString('en-GB', {timezone: 'UTC'})}
-        </Text>
+      <View style={styles.textContainer}>
+        <Text style={styles.category}> {item.source.name} </Text>
+        <Text style={styles.title}>{item.title}</Text>
+        <View style={styles.infoContainer}>
+          <Text style={styles.author}>{item.author}</Text>
+          <Text style={styles.date}>
+            {new Date(item.publishedAt).toLocaleString('en-GB', { timeZone: 'UTC' })}
+          </Text>
         </View>
-        <TouchableOpacity className="bg-red-800 px-4 py-1.5 mt-2 w-28 justify-center items-center rounded-md flex-row space-x-2">
-          <Text className="text-white text-xs font-semibold">Read More</Text>
-        </TouchableOpacity>
-      </View>
-
-      <View className="absolute top-4 right-4 bg-red-800 px-4 rounded-md">
-        <Text className="text-xs text-white py-1">{item.source.name}</Text>
       </View>
     </View>
   );
-}; 
+};
 
 export default Card;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  cardContainer: {
+    flexDirection: 'row',
+    padding: 10,
+    marginBottom: 10,
+  
+    borderRadius: 8,
+  
+  },
+  image: {
+    width: 80,
+    height: 80,
+    borderRadius: 8,
+  },
+  textContainer: {
+    flex: 1,
+    paddingLeft: 10,
+    justifyContent: 'center',
+  },
+  category: {
+    fontSize: 12,
+    color: '#888',
+  },
+  title: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  infoContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 5,
+  },
+  author: {
+    fontSize: 12,
+    color: '#888',
+    marginRight: 10,
+  },
+  date: {
+    fontSize: 12,
+    color: '#888',
+  },
+});
